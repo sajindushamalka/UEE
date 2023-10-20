@@ -5,7 +5,8 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { Ionicons } from '@expo/vector-icons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { View } from 'react-native';
+import store from './Screen/IT21041716/stores/index.js';
+import { Provider } from 'react-redux';
 
 
 import Footer from './Screen/Footer';
@@ -43,40 +44,6 @@ function MainStack() {
       <Stack.Screen name='TimeTable' component={TimeTable} options={{ headerShown: false }} />
       <Stack.Screen name='PaymentHistory' component={PaymentHistory} options={{ headerShown: false }} />
     </Stack.Navigator>
-  );
-}
-
-function App() {
-  const [displayLogin, setDisplayLogin] = useState(false);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setDisplayLogin(true);
-    }, 2000);
-  }, []);
-
-
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        {!displayLogin ? (
-          <Stack.Screen name="LandingPage" component={LandingPage} options={{ headerShown: false }} />
-        ) : (
-          <>
-            <Stack.Screen
-              name="Login"
-              component={Login}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Main"
-              component={MainScreen}
-              options={{ headerShown: false }}
-            />
-          </>
-        )}
-      </Stack.Navigator>
-    </NavigationContainer>
   );
 }
 
@@ -139,6 +106,42 @@ function MainScreen() {
         }}
       />
     </Tab.Navigator>
+  );
+}
+
+function App() {
+  const [displayLogin, setDisplayLogin] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setDisplayLogin(true);
+    }, 2000);
+  }, []);
+
+
+  return (
+    <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            {!displayLogin ? (
+              <Stack.Screen name="LandingPage" component={LandingPage} options={{ headerShown: false }} />
+            ) : (
+              <>
+                <Stack.Screen
+                  name="Login"
+                  component={Login}
+                  options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                  name="Main"
+                  component={MainScreen}
+                  options={{ headerShown: false }}
+                />
+              </>
+            )}
+          </Stack.Navigator>
+        </NavigationContainer>
+    </Provider>
   );
 }
 

@@ -8,7 +8,7 @@ const Profile = () => {
   const navigation = useNavigation();
 
   const handleLogout = () => {
-    // Add your logout functionality here
+    navigation.navigate('Login')
     console.log("Logged out");
   };
   return (

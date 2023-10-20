@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Alert } from 'react-native';
 import logo from '../assets/myfit.jpg'
+import {useDispatch, useSelector} from 'react-redux'
+import { Login } from '../actions/authAction';
+
 
 const styles = StyleSheet.create({
     container: {
@@ -57,33 +60,33 @@ const styles = StyleSheet.create({
 });
 
 const UserLogin = ({ navigation }) => {
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    // const authenticated = useSelector((state) => state.auth.authenticated)
+    const authenticated = useSelector((state) => state.auth.authenticated)
+
 
     const sendData = (e) => {
         e.preventDefault();
 
-
         if (email == '') {
-            ToastAndroid.show("Email required..!", ToastAndroid.SHORT);
+            Alert.alert("Email required..!");
         } else if (password == '') {
-            ToastAndroid.show("Password required..!", ToastAndroid.SHORT);
+            Alert.alert("Password required..!");
         } else if (password != '' && email != '') {
-
             const form = {
                 email: email,
                 password: password,
             }
 
-            // dispatch(Login(form));
-            setEmail('');
-            setPassword('');
+            dispatch(Login(form));
+            // setEmail('');
+            // setPassword('');
+        
         }
     }
     // if (authenticated) {
-    //     navigation.navigate('Main');
+    //     navigation.navigate('Home');
     // }
 
     return (
@@ -95,12 +98,6 @@ const UserLogin = ({ navigation }) => {
                 <TouchableOpacity onPress={sendData} style={styles.button}>
                     <Text style={styles.buttonText}>Sign In</Text>
                 </TouchableOpacity>
-                <View style={styles.newUser}>
-                    <Text style={styles.newUserText}>New User?</Text>
-                    <TouchableOpacity style={styles.registerLink}>
-                        <Text style={styles.registerText}>Create an account</Text>
-                    </TouchableOpacity>
-                </View>
                 <TouchableOpacity onPress={() => navigation.navigate('Main')} style={styles.skipButton}>
                     <Text style={styles.skipText}>Skip</Text>
                 </TouchableOpacity>
