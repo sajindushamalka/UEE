@@ -19,13 +19,13 @@
     "@react-navigation/material-top-tabs": "^6.6.4",
     "@react-navigation/native": "^6.1.8",
     "@react-navigation/stack": "^6.3.18",
-    "axios": "^1.5.0",
+    "axios": "^1.5.1",
     "expo": "~49.0.12",
     "expo-status-bar": "~1.6.0",
     "react": "18.2.0",
-    "react-native": "0.72.6",
+    "react-native": "^0.72.6",
     "react-native-drawer": "^2.5.1",
-    "react-native-gesture-handler": "2.12.0",
+    "react-native-gesture-handler": "^2.12.0",
     "react-native-paper": "^5.10.6",
     "react-native-qrcode-svg": "^6.2.0",
     "react-native-reanimated": "~3.3.0",
@@ -42,7 +42,8 @@
     "redux": "^4.2.1",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.2",
-    "sweetalert2": "^11.7.32"
+    "sweetalert2": "^11.7.32",
+    "@expo/webpack-config": "^19.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

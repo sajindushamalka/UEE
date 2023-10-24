@@ -15,10 +15,12 @@ const dirName = path.dirname(filePath);
 app.use(express.static(path.join(dirName, "uploads")));
 
 app.use(bodyParser.json());
-app.use(cors());
 dotenv.config();
 
-const port = process.env.PORT || 8087;
+app.use(cors());
+
+
+const port = process.env.PORT || 8086;
 
 app.listen(port, () => {
   console.log("=================================");

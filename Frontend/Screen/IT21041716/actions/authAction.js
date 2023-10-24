@@ -44,15 +44,47 @@ import { Alert } from 'react-native';
 //     }
 // }
 
-export const Login = (data) => {
-    return async (dispatch) => {
-        console.log("action eke", data)
-        dispatch({type:authConstants.LOGIN_REQUEST})
-        axios.post('https://uee-backend-host.onrender.com/user/login', data).then((res) => {
-            console.log(res.data.user);
+// export const Login = (data) => {
+//     return async (dispatch) => {
+//         console.log("action eke", data);
+//         dispatch({ type: authConstants.LOGIN_REQUEST });
 
-        }).catch((err) => {
-            console.log(err);
-        })
-    }
-}
+//         try {
+//             const response = await fetch('https://uee-backend-host.onrender.com/user/login', {
+//                 method: 'POST',
+//                 headers: {
+//                     'Content-Type': 'application/json'
+//                 },
+//                 body: JSON.stringify(data)
+//             });
+
+//             if (!response.ok) {
+//                 throw new Error(`HTTP error! Status: ${response.status}`);
+//             }
+
+//             const responseData = await response.json();
+//             console.log(responseData.user);
+//         } catch (error) {
+//             console.error('Fetch error:', error.message);
+//         }
+//     };
+// };
+
+
+// // Sample data for the POST request
+// const postData = {
+//     title: 'foo',
+//     body: 'bar',
+//     userId: 1,
+// };
+
+// // Make a POST request using Axios
+// axios.post('https://jsonplaceholder.typicode.com/posts', postData)
+//     .then(response => {
+//         // Handle the response data
+//         console.log(response.data);
+//     })
+//     .catch(error => {
+//         // Handle any errors
+//         console.error('Error posting data', error);
+//     });

@@ -9,7 +9,6 @@ import {
     ScrollView,
     TextInput,
     Platform,
-    ToastAndroid,
     Alert
 } from 'react-native';
 import React, { useState } from 'react';

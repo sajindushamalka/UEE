@@ -77,7 +77,7 @@ function MainScreen() {
       />
       <Tab.Screen
         name="Tutorial"
-        component={MainStack}
+        component={NutritionPlanSelect}
         options={{
           tabBarIcon: ({ color, size }) => (
             <FontAwesome name="video-camera" size={25} color={color} />

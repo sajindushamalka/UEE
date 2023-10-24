@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Alert } from 'react-native';
 import logo from '../assets/myfit.jpg'
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Login } from '../actions/authAction';
-
+import { axios } from 'axios'
 
 const styles = StyleSheet.create({
     container: {
@@ -67,7 +67,6 @@ const UserLogin = ({ navigation }) => {
 
 
     const sendData = (e) => {
-        e.preventDefault();
 
         if (email == '') {
             Alert.alert("Email required..!");
@@ -79,15 +78,35 @@ const UserLogin = ({ navigation }) => {
                 password: password,
             }
 
-            dispatch(Login(form));
-            // setEmail('');
-            // setPassword('');
-        
+            console.log(form)
+            const url = 'https://uee-backend-host.onrender.com/member/login';
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+
+            axios.post(url, form, config)
+                .then((response) => {
+                    console.log(response.data);
+                })
+                .catch((error) => {
+                    if (error.response) {
+                        console.error('Error posting .............', error.response);
+                    } else {
+                        console.error('Error posting .............', error.message);
+                    }
+                });
+
+
+
+
+
+
+
+
         }
     }
-    // if (authenticated) {
-    //     navigation.navigate('Home');
-    // }
 
     return (
         <View style={styles.container}>
@@ -95,7 +114,7 @@ const UserLogin = ({ navigation }) => {
             <View style={styles.form}>
                 <TextInput style={styles.input} placeholder="Email" value={email} onChangeText={(text) => setEmail(text)} />
                 <TextInput secureTextEntry={true} style={styles.input} placeholder="Password" value={password} onChangeText={(text) => setPassword(text)} />
-                <TouchableOpacity onPress={sendData} style={styles.button}>
+                <TouchableOpacity onPress={() => sendData()} style={styles.button}>
                     <Text style={styles.buttonText}>Sign In</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate('Main')} style={styles.skipButton}>
