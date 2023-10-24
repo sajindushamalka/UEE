@@ -10,31 +10,31 @@ const weekPlanSchema = new Schema({
     type: String,
     required: true,
   },
-  monday: [{
+  Monday: [{
     type: String,
     required: true,
   }],
-  tuesday: [{
+  Tuesday: [{
     type: String,
     required: true,
   }],
-  wednesday: [{
+  Wednesday: [{
     type: String,
     required: true,
   }],
-  thursday: [{
+  Thursday: [{
     type: String,
     required: true,
   }],
-  friday: [{
+  Friday: [{
     type: String,
     required: true,
   }],
-  saturday: [{
+  Saturday: [{
     type: String,
     required: true,
   }],
-  sunday: [{
+  Sunday: [{
     type: String,
     required: true,
   }],

@@ -8,8 +8,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 
 const NutritionPlanSelect = () => {
-  const mealPlans = ["Grain Weight", "Lose Weight", "Healthy Meal"];
-  const mealDurations = ["7 Days", "1 Month", "3 Months"];
+  const mealPlans = ["Grain Weight", "Lose Weight"];
+  const mealDurations = ["7 Days", "1 Month", "3 Month"];
   const [plan, setPlan] = useState("");
   const [duration, setDuration] = useState("");
   const navigation = useNavigation();
@@ -27,7 +27,7 @@ const displayValues = () =>{
     navigation.navigate('MealPlan',{data:res.data} );
    }else if(duration == '1 Month'){
     navigation.navigate('MonthlyMealPlan',{data:res.data} );
-   }else if(duration == '3 Months'){
+   }else if(duration == '3 Month'){
     navigation.navigate('TreeMonthMealPlan',{data:res.data} );
    }
     

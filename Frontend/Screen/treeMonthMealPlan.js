@@ -22,6 +22,9 @@ import Icon from 'react-native-vector-icons/Ionicons';
     const route = useRoute();
     const navigation = useNavigation();
     const itemId = route.params.data.payload;
+    const [ususerID,setusUserID] = useState("651c69fd9a26a5742d859388");
+    const usNPlanID = itemId.nutritionPlanId;
+    const [type,setType] = useState("3 Month");
     //console.log(itemId.nutritionPlanId);
     //console.log(itemId)
   
@@ -51,6 +54,20 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
     const handeleBack = () => {
         navigation.navigate('NutritionPlanSelect');
+      }
+
+      const moveUserAccount = () => {
+        const plan = {
+          ususerID,
+          usNPlanID,
+          type
+        }
+        axios.post('http://192.168.1.102:8086/usnutition/add',plan).then((res)=>{
+          console.log('plane selected')
+        }).catch((err)=>{
+          console.log("error in plan selecting")
+        })
+        navigation.navigate('MyMealPlan',{data:plan });
       }
   
     return (
@@ -96,7 +113,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
               >
                 Nutrition Package Details
               </Text>
-              <View style={{flexDirection:'row'}}>
+              <View style={{flexDirection:'row',backgroundColor:'white', padding:10}}>
               <Text style={style.dayStyle}>Spring One</Text>
               <View>
                 {plan && plan.springOne && plan.springOne.length > 0 && foods.map((food, index) => (
@@ -118,7 +135,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
               </View>
               </View>
   
-              <View style={{flexDirection:'row'}}>
+              <View style={{flexDirection:'row', padding:10}}>
               <Text style={style.dayStyle}>Spring Two</Text>
               <View>
                 {plan && plan.springTwo && plan.springTwo.length > 0 && foods.map((food, index) => (
@@ -140,7 +157,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
               </View>
               </View>
   
-              <View style={{flexDirection:'row'}}>
+              <View style={{flexDirection:'row',backgroundColor:'white', padding:10}}>
               <Text style={style.dayStyle}>Spring Tree</Text>
               <View>
                 {plan && plan.springTree && plan.springTree.length > 0 && foods.map((food, index) => (
@@ -162,7 +179,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
               </View>
               </View>
   
-              <View style={{flexDirection:'row'}}>
+              <View style={{flexDirection:'row',padding:10}}>
               <Text style={style.dayStyle}>Spring Four</Text>
               <View>
                 {plan && plan.springFour && plan.springFour.length > 0 && foods.map((food, index) => (
@@ -184,7 +201,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
               </View>
               </View>
 
-              <View style={{flexDirection:'row'}}>
+              <View style={{flexDirection:'row',backgroundColor:'white', padding:10}}>
               <Text style={style.dayStyle}>Spring Five</Text>
               <View>
                 {plan && plan.springFive && plan.springFive.length > 0 && foods.map((food, index) => (
@@ -206,7 +223,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
               </View>
               </View>
 
-              <View style={{flexDirection:'row'}}>
+              <View style={{flexDirection:'row',padding:10}}>
               <Text style={style.dayStyle}>Spring Six</Text>
               <View>
                 {plan && plan.springSix && plan.springSix.length > 0 && foods.map((food, index) => (
@@ -230,7 +247,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
             </ScrollView>
           </View>
           <View style={{width:100, marginLeft:150, paddingTop:20, borderRadius:20}}>
-          <Button title='Active' color={"orange"} onPress={()=>console.log('hi')} />
+          <Button title='Active' color={"orange"} onPress={()=>moveUserAccount()} />
           </View>
           
         </View>
@@ -278,7 +295,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
       width: 100,
       height: 30,
       color: "white",
-      marginLeft: 30,
+      marginLeft: 10,
       marginTop: 20,
       textAlign: "center",
       fontSize: 17,

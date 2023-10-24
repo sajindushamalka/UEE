@@ -6,23 +6,23 @@ export const addPlan = async (req, res) => {
     const weekPlanId = prefix + Date.now();
 
     const weekPlanName = req.body.weekPlanName;
-    const monday = req.body.monday;
-    const tuesday = req.body.tuesday;
-    const wednesday = req.body.wednesday;
-    const thursday = req.body.thursday;
-    const friday = req.body.friday;
-    const saturday = req.body.saturday;
-    const sunday = req.body.sunday;
+    const Monday = req.body.Monday;
+    const Tuesday = req.body.Tuesday;
+    const Wednesday = req.body.Wednesday;
+    const Thursday = req.body.Thursday;
+    const Friday = req.body.Friday;
+    const Saturday = req.body.Saturday;
+    const Sunday = req.body.Sunday;
 
     const newWeek = new WeekPlan({
         weekPlanId: weekPlanId,
-        monday: monday,
-        tuesday: tuesday,
-        wednesday: wednesday,
-        thursday: thursday,
-        friday: friday,
-        saturday: saturday,
-        sunday: sunday, 
+        Monday: Monday,
+        Tuesday: Tuesday,
+        Wednesday: Wednesday,
+        Thursday: Thursday,
+        Friday: Friday,
+        Saturday: Saturday,
+        Sunday: Sunday, 
         weekPlanName: weekPlanName, 
     });
 

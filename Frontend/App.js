@@ -106,6 +106,7 @@ import MealPlan from './Screen/MeakPlan';
 import MyMealPlan from './Screen/MyMealPlan';
 import MonthlyMealPlan from './Screen/monthlyMealPlan';
 import TreeMonthMealPlan from './Screen/treeMonthMealPlan';
+import MealAnalysis from './Screen/MealAnalysis';
 
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -118,6 +119,7 @@ function MainStack() {
       <Stack.Screen name='MonthlyMealPlan' component={MonthlyMealPlan} options={{ headerShown: false }} />
       <Stack.Screen name='TreeMonthMealPlan' component={TreeMonthMealPlan} options={{ headerShown: false }} />
       <Stack.Screen name='MyMealPlan' component={MyMealPlan} options={{ headerShown: false }} />
+      <Stack.Screen name='MealAnalysis' component={MealAnalysis} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 }
@@ -125,7 +127,7 @@ function MainStack() {
 function App() {
   return (
     <NavigationContainer> 
-      <Tab.Navigator barStyle={{backgroundColor:'orange'}}>
+      <Tab.Navigator barStyle={{backgroundColor:'orange'}}  >
         <Tab.Screen
           name="Home"
           component={MainStack}

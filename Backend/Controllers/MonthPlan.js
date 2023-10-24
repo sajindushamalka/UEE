@@ -63,7 +63,7 @@ export const getOneMonths = async (req, res) => {
   try {
     const monthId = req.params.id;
     const month = await MonthPlan.findById(monthId);
-
+    console.log(month)
     if (month) {
       res.status(200).json({
         payload: month,

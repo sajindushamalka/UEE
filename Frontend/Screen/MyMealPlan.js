@@ -7,11 +7,13 @@ import {
   StatusBar,
   ImageBackground,
   ScrollView,
+  Button
 } from "react-native";
 import React, { useEffect, useState } from "react";
 const bgImage = require("../assets/meal.png");
 import { useRoute } from "@react-navigation/native";
 import axios from "axios";
+import {useNavigation} from '@react-navigation/native'
 
 const MyMealPlan = () => {
   const currentDate = new Date();
@@ -34,6 +36,8 @@ const MyMealPlan = () => {
   const [meal, setMeal] = useState([]);
   const [food, setFood] = useState([]);
 
+  const navigation = useNavigation();
+
   useEffect(() => {
     if (type === "7 Days") {
       axios
@@ -41,6 +45,18 @@ const MyMealPlan = () => {
         .then((res) => {
           if (currentDay === "Wednesday") {
             setMeal(res.data.payload.Wednesday);
+          } else if (currentDay === "Monday") {
+            setMeal(res.data.payload.Monday);
+          } else if (currentDay === "Tuesday") {
+            setMeal(res.data.payload.Tuesday);
+          } else if (currentDay === "Thursday") {
+            setMeal(res.data.payload.Thursday);
+          } else if (currentDay === "Friday") {
+            setMeal(res.data.payload.Friday);
+          } else if (currentDay === "Saturday") {
+            setMeal(res.data.payload.Saturday);
+          } else if (currentDay === "Sunday") {
+            setMeal(res.data.payload.Sunday);
           }
           return meal;
         })
@@ -64,11 +80,71 @@ const MyMealPlan = () => {
         .catch((err) => {
           console.log("Error in meal request", err);
         });
-    }
-  }, []);
+    }else if(type == "1 Month"){
+      axios
+      .get(`http://192.168.1.102:8086/month/one/${itemId}`)
+      .then((res) => {
+        console.log(res.data.payload)
+        setMeal(res.data.payload.springOne);
+        return meal;
+      })
+      .then((mealData) => {
+        // Create an array of promises for axios requests
+        const foodRequests = mealData.map((ml) =>
+          axios.get(`http://192.168.1.102:8086/food/one/${ml}`)
+        );
 
-  console.log(`Today is ${currentDay}`);
-  
+        // Use Promise.all to wait for all requests to complete
+        Promise.all(foodRequests)
+          .then((responses) => {
+            // Extract the payload from each response and set the food state
+            const foods = responses.map((res) => res.data.payload);
+            setFood(foods);
+          })
+          .catch((err) => {
+            console.log("Error in food requests", err);
+          });
+      })
+      .catch((err) => {
+        console.log("Error in meal request", err);
+      });
+    }else if(type == "3 Months"){
+      axios
+      .get(`http://192.168.1.102:8086/tree/one/${itemId}`)
+      .then((res) => {
+        console.log(res.data.payload)
+        setMeal(res.data.payload.springOne);
+        return meal;
+      })
+      .then((mealData) => {
+        // Create an array of promises for axios requests
+        const foodRequests = mealData.map((ml) =>
+          axios.get(`http://192.168.1.102:8086/food/one/${ml}`)
+        );
+
+        // Use Promise.all to wait for all requests to complete
+        Promise.all(foodRequests)
+          .then((responses) => {
+            // Extract the payload from each response and set the food state
+            const foods = responses.map((res) => res.data.payload);
+            setFood(foods);
+          })
+          .catch((err) => {
+            console.log("Error in food requests", err);
+          });
+      })
+      .catch((err) => {
+        console.log("Error in meal request", err);
+      });
+    }
+  },[meal]);
+
+
+  const handleNect = () => {
+    navigation.navigate('MealAnalysis',{data:food});
+  }
+
+
   return (
     <SafeAreaView>
       <StatusBar backgroundColor="orange" />
@@ -104,16 +180,21 @@ const MyMealPlan = () => {
                 fontWeight: "bold",
               }}
             >
-              Today Your Plan
+              Today is {currentDay} Your Plan
             </Text>
+            <View style={{padding:30}}>
             {food.map((f) => (
-              <View>
-                <Text>{f.foodCalorie}</Text>
-                <Text>{f.foodName}</Text>
+              <View style={{padding:5, }}>
+                 <Text style={{fontSize:17,backgroundColor:'white', padding:10 }}>Food Name - {f.foodName}</Text>
+                <Text style={{padding:10}}>Calorie Rate - {f.foodCalorie} cal</Text>
               </View>
             ))}
+            </View>
           </ScrollView>
         </View>
+        <View style={{width:100, marginLeft:150, paddingTop:20, borderRadius:20}}>
+          <Button title='Analysis' color={"orange"} onPress={()=>handleNect()} />
+          </View>
       </View>
     </SafeAreaView>
   );
