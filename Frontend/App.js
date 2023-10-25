@@ -52,16 +52,20 @@ function MainStack() {
 
 function MainScreen() {
   return (
-    <NavigationContainer> 
-      {/* <Tab.Navigator barStyle={{backgroundColor:'orange'}}  >
+    <NavigationContainer>
+      <Tab.Navigator
+        tabBarOptions={{
+          activeTintColor: 'orange',
+          inactiveTintColor: '',
+        }}>
         <Tab.Screen
           name="Home"
           component={MainStack}
           options={{
             tabBarIcon: ({ focused, color, size }) => (
-              <Ionicons name={focused ? 'ios-home' : 'ios-home-outline'} size={size} color={color} />
+              <Fontisto name="home" size={25} color={color} />
             ),
-            headerShown:false
+            headerShown: false,
           }}
         />
         <Tab.Screen
@@ -69,70 +73,43 @@ function MainScreen() {
           component={MainStack}
           options={{
             tabBarIcon: ({ focused, color, size }) => (
-              <Ionicons name={focused ? 'ios-settings' : 'ios-settings-outline'} size={size} color={color} />
+              <Ionicons name={focused ? 'ios-settings' : 'ios-settings-outline'} size={25} color={color} />
             ),
-            headerShown:false
+            headerShown: false,
+          }}
+        />
+        <Tab.Screen
+          name="Tutorial"
+          component={NutritionPlanSelect}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <FontAwesome name="video-camera" size={25} color={color} />
+            ),
+            headerShown: false,
+          }}
+        />
+        <Tab.Screen
+          name="photo"
+          component={MainStack}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <FontAwesome name="photo" size={25} color={color} />
+            ),
+            headerShown: false,
+          }}
+        />
+        <Tab.Screen
+          name="Profile"
+          component={Profile}
+          options={{
+            tabBarIcon: ({ focused, color, size }) => (
+              <Ionicons name={focused ? 'person-circle-outline' : 'person-circle-outline'} size={28} color={color} />
+            ),
+            headerShown: false,
           }}
         />
       </Tab.Navigator>
-    </NavigationContainer> */}
-    <Tab.Navigator
-      tabBarOptions={{
-        activeTintColor: 'orange',
-        inactiveTintColor: '',
-      }}>
-      <Tab.Screen
-        name="Home"
-        component={MainStack}
-        options={{
-          tabBarIcon: ({ focused, color, size }) => (
-            <Fontisto name="home" size={25} color={color} />
-          ),
-          headerShown: false,
-        }}
-      />
-      <Tab.Screen
-        name="Settings"
-        component={MainStack}
-        options={{
-          tabBarIcon: ({ focused, color, size }) => (
-            <Ionicons name={focused ? 'ios-settings' : 'ios-settings-outline'} size={25} color={color} />
-          ),
-          headerShown: false,
-        }}
-      />
-      <Tab.Screen
-        name="Tutorial"
-        component={NutritionPlanSelect}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <FontAwesome name="video-camera" size={25} color={color} />
-          ),
-          headerShown: false,
-        }}
-      />
-      <Tab.Screen
-        name="photo"
-        component={MainStack}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <FontAwesome name="photo" size={25} color={color} />
-          ),
-          headerShown: false,
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          tabBarIcon: ({ focused, color, size }) => (
-            <Ionicons name={focused ? 'person-circle-outline' : 'person-circle-outline'} size={28} color={color} />
-          ),
-          headerShown: false,
-        }}
-      />
-    </Tab.Navigator>
-   </NavigationContainer>
+    </NavigationContainer>
   );
 }
 
@@ -148,26 +125,26 @@ function App() {
 
   return (
     <Provider store={store}>
-        <NavigationContainer>
-          <Stack.Navigator>
-            {!displayLogin ? (
-              <Stack.Screen name="LandingPage" component={LandingPage} options={{ headerShown: false }} />
-            ) : (
-              <>
-                <Stack.Screen
-                  name="Login"
-                  component={Login}
-                  options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                  name="Main"
-                  component={MainScreen}
-                  options={{ headerShown: false }}
-                />
-              </>
-            )}
-          </Stack.Navigator>
-        </NavigationContainer>
+      <NavigationContainer>
+        <Stack.Navigator>
+          {!displayLogin ? (
+            <Stack.Screen name="LandingPage" component={LandingPage} options={{ headerShown: false }} />
+          ) : (
+            <>
+              <Stack.Screen
+                name="Login"
+                component={Login}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Main"
+                component={MainScreen}
+                options={{ headerShown: false }}
+              />
+            </>
+          )}
+        </Stack.Navigator>
+      </NavigationContainer>
     </Provider>
   );
 }
