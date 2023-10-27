@@ -30,6 +30,9 @@ const MemberSchema = new Schema({
         type: String,
         required: true,  
     },
+    rewards: {
+        type: Number
+    },
     paymentStatus: {
         type: String,
         required: true,  

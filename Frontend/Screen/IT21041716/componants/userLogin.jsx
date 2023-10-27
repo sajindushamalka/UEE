@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Alert } fro
 import logo from '../assets/myfit.jpg'
 import { useDispatch, useSelector } from 'react-redux'
 import { Login } from '../actions/authAction';
-import { axios } from 'axios'
+
 
 const styles = StyleSheet.create({
     container: {
@@ -66,45 +66,29 @@ const UserLogin = ({ navigation }) => {
     const authenticated = useSelector((state) => state.auth.authenticated)
 
 
-    const sendData = (e) => {
+    const sendData = async () => {
 
-        if (email == '') {
+        if (email === '') {
             Alert.alert("Email required..!");
-        } else if (password == '') {
+        } else if (password === '') {
             Alert.alert("Password required..!");
-        } else if (password != '' && email != '') {
+        } else if (password !== '' && email !== '') {
+            
             const form = {
                 email: email,
                 password: password,
             }
 
-            console.log(form)
-            const url = 'https://uee-backend-host.onrender.com/member/login';
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            };
-
-            axios.post(url, form, config)
-                .then((response) => {
-                    console.log(response.data);
-                })
-                .catch((error) => {
-                    if (error.response) {
-                        console.error('Error posting .............', error.response);
-                    } else {
-                        console.error('Error posting .............', error.message);
-                    }
-                });
-
-
-
-
-
-
-
-
+            dispatch(Login(form))
+            setEmail('')
+            setPassword('')
+            // try {
+            //     console.log(form)
+            //     const res = await axios.post('http://192.168.8.160:8086/member/login', form, {timeout: 1200000});
+            //     console.log(res.data);
+            // } catch (error) {
+            //     console.error('Error occurred during axios request:', error);
+            // }
         }
     }
 

@@ -55,7 +55,6 @@ app.use("/nutrition", NutritionPlan);
 import UserSelectedNutritionPlan from "./Routes/UserSelectedNutritionPlan.js";
 app.use("/usnutition", UserSelectedNutritionPlan);
 
-
 import Admin from "./Routes/AdminRoutes.js";
 app.use("/admin", Admin);
 
@@ -64,3 +63,6 @@ app.use("/member", Member);
 
 import Payment from "./Routes/paymentRoutes.js";
 app.use("/payment", Payment);
+
+import timetable from './Routes/timeTableRoutes.js';
+app.use("/timetable", timetable);

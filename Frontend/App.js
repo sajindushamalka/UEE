@@ -52,7 +52,6 @@ function MainStack() {
 
 function MainScreen() {
   return (
-    <NavigationContainer>
       <Tab.Navigator
         tabBarOptions={{
           activeTintColor: 'orange',
@@ -109,7 +108,6 @@ function MainScreen() {
           }}
         />
       </Tab.Navigator>
-    </NavigationContainer>
   );
 }
 
