@@ -3,7 +3,49 @@ import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Alert } fro
 import logo from '../assets/myfit.jpg'
 import { useDispatch, useSelector } from 'react-redux'
 import { Login } from '../actions/authAction';
+import { useNavigation } from '@react-navigation/native';
 
+const UserLogin = () => {
+    const navigation = useNavigation();
+    const dispatch = useDispatch();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const authenticated = useSelector((state) => state.auth.authenticated)
+
+    const sendData = async () => {
+
+        if (email === '') {
+            Alert.alert("Email required..!");
+        } else if (password === '') {
+            Alert.alert("Password required..!");
+        } else if (password !== '' && email !== '') {
+
+            const form = {
+                email: email,
+                password: password,
+            }
+
+            dispatch(Login(form))
+            setEmail('')
+            setPassword('')
+        }
+    }
+    if (authenticated) {
+        navigation.navigate('Main');
+    }
+    return (
+        <View style={styles.container}>
+            <Image source={logo} style={styles.logo} />
+            <View style={styles.form}>
+                <TextInput style={styles.input} placeholder="Email" value={email} onChangeText={(text) => setEmail(text)} />
+                <TextInput secureTextEntry={true} style={styles.input} placeholder="Password" value={password} onChangeText={(text) => setPassword(text)} />
+                <TouchableOpacity onPress={() => sendData()} style={styles.button}>
+                    <Text style={styles.buttonText}>Sign In</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
+    )
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -58,55 +100,5 @@ const styles = StyleSheet.create({
         textDecorationLine: 'underline',
     },
 });
-
-const UserLogin = ({ navigation }) => {
-    const dispatch = useDispatch();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const authenticated = useSelector((state) => state.auth.authenticated)
-
-
-    const sendData = async () => {
-
-        if (email === '') {
-            Alert.alert("Email required..!");
-        } else if (password === '') {
-            Alert.alert("Password required..!");
-        } else if (password !== '' && email !== '') {
-            
-            const form = {
-                email: email,
-                password: password,
-            }
-
-            dispatch(Login(form))
-            setEmail('')
-            setPassword('')
-            // try {
-            //     console.log(form)
-            //     const res = await axios.post('http://192.168.8.160:8086/member/login', form, {timeout: 1200000});
-            //     console.log(res.data);
-            // } catch (error) {
-            //     console.error('Error occurred during axios request:', error);
-            // }
-        }
-    }
-
-    return (
-        <View style={styles.container}>
-            <Image source={logo} style={styles.logo} />
-            <View style={styles.form}>
-                <TextInput style={styles.input} placeholder="Email" value={email} onChangeText={(text) => setEmail(text)} />
-                <TextInput secureTextEntry={true} style={styles.input} placeholder="Password" value={password} onChangeText={(text) => setPassword(text)} />
-                <TouchableOpacity onPress={() => sendData()} style={styles.button}>
-                    <Text style={styles.buttonText}>Sign In</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('Main')} style={styles.skipButton}>
-                    <Text style={styles.skipText}>Skip</Text>
-                </TouchableOpacity>
-            </View>
-        </View>
-    )
-}
 
 export default UserLogin

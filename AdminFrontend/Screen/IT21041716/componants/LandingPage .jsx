@@ -10,8 +10,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logo: {
-    width: 400,
-    height: 400,
+    width: 350,
+    height: 350,
     resizeMode: 'contain',
   },
 });

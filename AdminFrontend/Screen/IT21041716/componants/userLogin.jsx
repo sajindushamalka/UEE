@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Alert } from 'react-native';
 import logo from '../assets/myfit.jpg'
+import { Login } from '../actions/authAction'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigation } from '@react-navigation/native';
 
 const styles = StyleSheet.create({
     container: {
@@ -50,41 +53,35 @@ const styles = StyleSheet.create({
     skipButton: {
         marginTop: 10,
     },
-    skipText: {
-        color: 'gray',
-        textDecorationLine: 'underline',
-    },
 });
 
-const UserLogin = ({ navigation }) => {
-    // const dispatch = useDispatch();
+const UserLogin = () => {
+    const navigation = useNavigation();
+    const dispatch = useDispatch();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    // const authenticated = useSelector((state) => state.auth.authenticated)
+    const authenticated = useSelector((state) => state.auth.authenticated)
 
-    const sendData = (e) => {
-        e.preventDefault();
-
-
-        if (email == '') {
-            ToastAndroid.show("Email required..!", ToastAndroid.SHORT);
-        } else if (password == '') {
-            ToastAndroid.show("Password required..!", ToastAndroid.SHORT);
-        } else if (password != '' && email != '') {
+    const sendData = () => {
+        if (email === '') {
+            Alert.alert("Email required..!");
+        } else if (password === '') {
+            Alert.alert("Password required..!");
+        } else if (password !== '' && email !== '') {
 
             const form = {
                 email: email,
                 password: password,
             }
 
-            // dispatch(Login(form));
-            setEmail('');
-            setPassword('');
+            dispatch(Login(form))
+            setEmail('')
+            setPassword('')
         }
     }
-    // if (authenticated) {
-    //     navigation.navigate('Main');
-    // }
+    if (authenticated) {
+        navigation.navigate('Main');
+    }
 
     return (
         <View style={styles.container}>
@@ -92,18 +89,15 @@ const UserLogin = ({ navigation }) => {
             <View style={styles.form}>
                 <TextInput style={styles.input} placeholder="Email" value={email} onChangeText={(text) => setEmail(text)} />
                 <TextInput secureTextEntry={true} style={styles.input} placeholder="Password" value={password} onChangeText={(text) => setPassword(text)} />
-                <TouchableOpacity onPress={sendData} style={styles.button}>
+                <TouchableOpacity onPress={() => sendData()} style={styles.button}>
                     <Text style={styles.buttonText}>Sign In</Text>
                 </TouchableOpacity>
                 <View style={styles.newUser}>
                     <Text style={styles.newUserText}>New User?</Text>
-                    <TouchableOpacity style={styles.registerLink}>
+                    <TouchableOpacity style={styles.registerLink} onPress={() => navigation.navigate('Register')}>
                         <Text style={styles.registerText}>Create an account</Text>
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity onPress={() => navigation.navigate('Main')} style={styles.skipButton}>
-                    <Text style={styles.skipText}>Skip</Text>
-                </TouchableOpacity>
             </View>
         </View>
     )

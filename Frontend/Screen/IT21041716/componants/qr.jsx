@@ -10,18 +10,26 @@ import {
 } from "react-native";
 import React from 'react'
 import image from '../assets/gym2.jpg'
-import qr from '../assets/QR.png'
 import QRCode from 'react-native-qrcode-svg';
+import { useSelector } from 'react-redux'
+
 
 const QR = () => {
 
+  const user = useSelector((state) => state.auth.user);
+
   const userDetails = {
-    userId: '12345',
-    name: 'John Doe',
-    age: 30,
-    weight: '150 lbs',
-    height: '6\'0"',
-    paymentStatus: 'Paid',
+    memberId: user.memberId,
+    gymName: user.gymName,
+    name: user.name,
+    age: user.age,
+    address: user.address,
+    height: user.height,
+    weight: user.weight,
+    mobileNo: user.mobileNo,
+    email: user.email,
+    paymentStatus: user.paymentStatus,
+    rewards: user.rewards,
   };
 
   const userDetailsString = JSON.stringify(userDetails);
@@ -29,28 +37,29 @@ const QR = () => {
 
   return (
     <SafeAreaView>
-      <StatusBar backgroundColor="orange" />
-      <View style={{ backgroundColor: "black", height: "100%" }}>
-        <View>
-          <ImageBackground source={image} style={style.Image}>
-            <View
-              style={{ backgroundColor: "black", marginTop: 150, opacity: 0.85 }}
-            >
-              <Text style={style.HeaderText}>Scan Me QR</Text>
-            </View>
-            <View
-              style={{ backgroundColor: "black", opacity: 0.75, height: 130 }}
-            >
-              <Text
-                style={{ color: "white", textAlign: "center", padding: 10 }}
+      <ScrollView>
+        <StatusBar backgroundColor="orange" />
+        <View style={{ backgroundColor: "black", height: "100%" }}>
+          <View>
+            <ImageBackground source={image} style={style.Image}>
+              <View
+                style={{ backgroundColor: "black", marginTop: 150, opacity: 0.85 }}
               >
-                Say hello to our convenient QR code system! Easily access the gym and enjoy a hassle-free workout experience tailored to your fitness needs and goals.
-              </Text>
-            </View>
-          </ImageBackground>
-        </View>
-        <View style={style.secondDiv}>
-          <ScrollView>
+                <Text style={style.HeaderText}>Scan Me QR</Text>
+              </View>
+              <View
+                style={{ backgroundColor: "black", opacity: 0.75, height: 130 }}
+              >
+                <Text
+                  style={{ color: "white", textAlign: "center", padding: 10 }}
+                >
+                  Say hello to our convenient QR code system! Easily access the gym and enjoy a hassle-free workout experience tailored to your fitness needs and goals.
+                </Text>
+              </View>
+            </ImageBackground>
+          </View>
+          <View style={style.secondDiv}>
+
             <View style={style.imgContainer}>
               <QRCode
                 value={userDetailsString}
@@ -60,9 +69,9 @@ const QR = () => {
               <Text style={{ fontSize: 30, fontWeight: 700, color: 'white', marginTop: 30 }}>SCAN ME</Text>
             </View>
 
-          </ScrollView>
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   )
 }

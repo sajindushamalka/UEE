@@ -1,7 +1,7 @@
 import { authConstants } from './constants'
 import axios from 'axios'
-import { AsyncStorage } from 'react-native';
 import { Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const Login = (data) => {
     return async (dispatch) => {
@@ -12,10 +12,10 @@ export const Login = (data) => {
                 const token = res.data.token
                 const user = res.data.user
 
-                await AsyncStorage.setItem("token", token)
-                await AsyncStorage.setItem("user", JSON.stringify(user));
+                AsyncStorage.setItem("token", token);
+                AsyncStorage.setItem("user", JSON.stringify(user));
 
-                Alert.alert(`Login Successfull, Welcome ${res.data.fullName}`)
+                Alert.alert(`Login Successfull, Welcome ${res.data.user.name}`)
 
                 dispatch({
                     type: authConstants.LOGIN_SUCCESS,
@@ -38,6 +38,30 @@ export const Login = (data) => {
     }
 }
 
+
+export const isLoggedIn = () => {
+    return async (dispatch) => {
+        const token = await AsyncStorage.getItem("token");
+        if (token) {
+            const userData = await AsyncStorage.getItem('user');
+            const user = JSON.parse(userData);
+            if (user) {
+                dispatch({
+                    type: authConstants.LOGIN_SUCCESS,
+                    payload: {
+                        token,
+                        user
+                    }
+                });
+            }
+        } else {
+            dispatch({
+                type: authConstants.LOGOUT_FAILED,
+                payload: { error: 'Failed to login' }
+            });
+        }
+    };
+};
 
 
 

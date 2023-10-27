@@ -6,8 +6,8 @@ import { Ionicons } from '@expo/vector-icons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import store from './Screen/IT21041716/stores/index.js';
-import { Provider } from 'react-redux';
-
+import { Provider, useSelector, useDispatch } from 'react-redux';
+import { isLoggedIn } from './Screen/IT21041716/actions/authAction';
 
 import Footer from './Screen/Footer';
 import NutritionPlanSelect from './Screen/NutritionPlanSelect';
@@ -27,6 +27,7 @@ import QR from './Screen/IT21041716/componants/qr'
 import Member from './Screen/IT21041716/componants/RenewMembership'
 import TimeTable from './Screen/IT21041716/componants/timeTable';
 import PaymentHistory from './Screen/IT21041716/componants/PaymentHistory';
+import MyAccount from './Screen/IT21041716/componants/MyAccount.jsx';
 
 const Stack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -45,69 +46,78 @@ function MainStack() {
       <Stack.Screen name='Member' component={Member} options={{ headerShown: false }} />
       <Stack.Screen name='TimeTable' component={TimeTable} options={{ headerShown: false }} />
       <Stack.Screen name='PaymentHistory' component={PaymentHistory} options={{ headerShown: false }} />
+      <Stack.Screen name='MyAccount' component={MyAccount} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 }
 
 
 function MainScreen() {
+  const dispatch = useDispatch();
+  const authenticated = useSelector((state) => state.auth.authenticated)
+
+  useEffect(() => {
+    if (!authenticated) {
+      dispatch(isLoggedIn());
+    }
+  }, []);
   return (
-      <Tab.Navigator
-        tabBarOptions={{
-          activeTintColor: 'orange',
-          inactiveTintColor: '',
-        }}>
-        <Tab.Screen
-          name="Home"
-          component={MainStack}
-          options={{
-            tabBarIcon: ({ focused, color, size }) => (
-              <Fontisto name="home" size={25} color={color} />
-            ),
-            headerShown: false,
-          }}
-        />
-        <Tab.Screen
-          name="Settings"
-          component={MainStack}
-          options={{
-            tabBarIcon: ({ focused, color, size }) => (
-              <Ionicons name={focused ? 'ios-settings' : 'ios-settings-outline'} size={25} color={color} />
-            ),
-            headerShown: false,
-          }}
-        />
-        <Tab.Screen
-          name="Tutorial"
-          component={NutritionPlanSelect}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <FontAwesome name="video-camera" size={25} color={color} />
-            ),
-            headerShown: false,
-          }}
-        />
-        <Tab.Screen
-          name="photo"
-          component={MainStack}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <FontAwesome name="photo" size={25} color={color} />
-            ),
-            headerShown: false,
-          }}
-        />
-        <Tab.Screen
-          name="Profile"
-          component={Profile}
-          options={{
-            tabBarIcon: ({ focused, color, size }) => (
-              <Ionicons name={focused ? 'person-circle-outline' : 'person-circle-outline'} size={28} color={color} />
-            ),
-            headerShown: false,
-          }}
-        />
-      </Tab.Navigator>
+    <Tab.Navigator
+      tabBarOptions={{
+        activeTintColor: 'orange',
+        inactiveTintColor: '',
+      }}>
+      <Tab.Screen
+        name="Home"
+        component={MainStack}
+        options={{
+          tabBarIcon: ({ focused, color, size }) => (
+            <Fontisto name="home" size={25} color={color} />
+          ),
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="Settings"
+        component={MainStack}
+        options={{
+          tabBarIcon: ({ focused, color, size }) => (
+            <Ionicons name={focused ? 'ios-settings' : 'ios-settings-outline'} size={25} color={color} />
+          ),
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="Tutorial"
+        component={NutritionPlanSelect}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome name="video-camera" size={25} color={color} />
+          ),
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="photo"
+        component={MainStack}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome name="photo" size={25} color={color} />
+          ),
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          tabBarIcon: ({ focused, color, size }) => (
+            <Ionicons name={focused ? 'person-circle-outline' : 'person-circle-outline'} size={28} color={color} />
+          ),
+          headerShown: false,
+        }}
+      />
+    </Tab.Navigator>
   );
 }
 
@@ -117,7 +127,7 @@ function App() {
   useEffect(() => {
     setTimeout(() => {
       setDisplayLogin(true);
-    }, 2000);
+    }, 4000);
   }, []);
 
 

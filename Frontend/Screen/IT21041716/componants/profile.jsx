@@ -1,15 +1,19 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
 import image from '../assets/myfit.jpg'
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native'
+import { useDispatch, useSelector } from 'react-redux'
+
 
 const Profile = () => {
   const navigation = useNavigation();
+  const user = useSelector((state) => state.auth.user)
+  console.log(user)
 
   const handleLogout = () => {
-    navigation.navigate('Login')
-    console.log("Logged out");
+    Alert.alert("Logout successful..!");
+    navigation.navigate('Login');
   };
   return (
     <View style={styles.container}>
@@ -22,7 +26,7 @@ const Profile = () => {
             />
           </View>
           <View style={styles.profileInfo}>
-            <Text style={styles.profileName}>Sithanga Rashmika</Text>
+            <Text style={styles.profileName}>{user.name}</Text>
             <View style={styles.closeview}>
               <TouchableOpacity onPress={() => navigation.navigate('Home')} >
                 <Text style={styles.closeButton}>X</Text>
@@ -67,6 +71,14 @@ const Profile = () => {
             <Text style={styles.navigationButtonText}>Membership History</Text>
           </TouchableOpacity>
         </View>
+
+        <View style={styles.navMid}>
+          <Ionicons name='people-outline' size={26} color="black" />
+          <TouchableOpacity style={styles.navigationButton} onPress={() => navigation.navigate('MyAccount')}>
+            <Text style={styles.navigationButtonText}>My Account</Text>
+          </TouchableOpacity>
+        </View>
+
       </View>
 
 
@@ -144,7 +156,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   navigationContainer: {
-    marginTop: 50,
+    marginTop: 10,
     flexDirection: 'colums',
     width: '80%',
   },

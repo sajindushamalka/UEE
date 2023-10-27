@@ -1,28 +1,26 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import image from '../assets/myfit.jpg'
-import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native'
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, TextInput, Alert } from 'react-native';
+import image from '../assets/myfit.jpg';
+import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
 const Profile = () => {
   const navigation = useNavigation();
-
+  const user = useSelector((state) => state.auth.user);
   const handleLogout = () => {
-    // Add your logout functionality here
-    console.log("Logged out");
+    Alert.alert("Logout successful..!");
+    navigation.navigate('Login');
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.profileContainer}>
           <View style={styles.profileImageContainer}>
-            <Image
-              style={styles.profileImage}
-              source={image}
-            />
+            <Image style={styles.profileImage} source={image} />
           </View>
           <View style={styles.profileInfo}>
-            <Text style={styles.profileName}>Sithanga Rashmika</Text>
+            <Text style={styles.profileName}>{user.name}</Text>
             <View style={styles.closeview}>
               <TouchableOpacity onPress={() => navigation.navigate('Home')} >
                 <Text style={styles.closeButton}>X</Text>
@@ -32,55 +30,68 @@ const Profile = () => {
         </View>
       </View>
 
-      <View style={styles.navigationContainer}>
-        <View style={styles.navMid}>
-          <Ionicons name='qr-code-outline' size={26} color="black" />
-          <TouchableOpacity style={styles.navigationButton} onPress={() => navigation.navigate('QR')}>
-            <Text style={styles.navigationButtonText}>Check My QR Code</Text>
+      <ScrollView style={styles.scrollView}>
+        <View style={styles.divcontainer}>
+          <View style={styles.form}>
+            <Text>Full Name</Text>
+            <TextInput
+              style={styles.input}
+              value={user.name}
+              editable={false}
+            />
+            <Text>Admin ID</Text>
+            <TextInput
+              style={styles.input}
+              value={user.adminId}
+              editable={false}
+            />
+            <Text>Email</Text>
+            <TextInput
+              style={styles.input}
+              value={user.email}
+              editable={false}
+            />
+            <Text>Gym Name</Text>
+            <TextInput
+              style={styles.input}
+              value={user.gymName}
+              editable={false}
+            />
+            <Text>Mobile Number</Text>
+            <TextInput
+              style={styles.input}
+              value={user.mobileNo}
+              editable={false}
+            />
+            <Text>Address</Text>
+            <TextInput
+              style={styles.input}
+              value={user.address}
+              editable={false}
+            />
+          </View>
+
+          <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+            <Text style={styles.logoutButtonText}>Logout</Text>
           </TouchableOpacity>
         </View>
+      </ScrollView >
+    </View >
+  );
+};
 
-        <View style={styles.navMid}>
-          <Ionicons name='wallet-outline' size={26} color="black" />
-          <TouchableOpacity onPress={() => navigation.navigate('Rewards')} style={styles.navigationButton} >
-            <Text style={styles.navigationButtonText}>Rewards</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.navMid}>
-          <Ionicons name='barbell-outline' size={26} color="black" />
-          <TouchableOpacity style={styles.navigationButton} onPress={() => navigation.navigate('Member')}>
-            <Text style={styles.navigationButtonText}>Renew Membership</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.navMid}>
-          <Ionicons name='calendar-outline' size={26} color="black" />
-          <TouchableOpacity style={styles.navigationButton} onPress={() => navigation.navigate('TimeTable')}>
-            <Text style={styles.navigationButtonText}>Time Table</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.navMid}>
-          <Ionicons name='calculator-outline' size={26} color="black" />
-          <TouchableOpacity style={styles.navigationButton} onPress={() => navigation.navigate('PaymentHistory')}>
-            <Text style={styles.navigationButtonText}>Membership History</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
-
-      <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-        <Text style={styles.logoutButtonText}>Logout</Text>
-      </TouchableOpacity>
-    </View>
-  )
-}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
     backgroundColor: '#fff',
+    alignItems: 'center',
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ddd',
+    padding: 12,
+    marginBottom: 20,
+    borderRadius: 5,
   },
   header: {
     width: '100%',
@@ -88,25 +99,21 @@ const styles = StyleSheet.create({
     backgroundColor: '#faeef2',
     justifyContent: 'center',
   },
-  headerText: {
-    color: '#fff',
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
   profileContainer: {
     marginTop: 10,
-    display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between', // Add this line
-    paddingRight: 20, // Add this line
-
+    justifyContent: 'space-between',
+    paddingRight: 20,
+  },
+  form: {
+    width: '80%',
   },
   profileImageContainer: {
     width: 80,
     height: 80,
     borderRadius: 50,
     overflow: 'hidden',
-    marginLeft: 20
+    marginLeft: 20,
   },
   profileImage: {
     width: '100%',
@@ -116,52 +123,38 @@ const styles = StyleSheet.create({
   profileName: {
     marginTop: 20,
     fontSize: 24,
-    fontWeight: 600,
   },
   profileInfo: {
-    display: 'flex',
-    flexDirection: 'row', // Add this line
-    alignItems: 'center', // Add this line
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   closeview: {
     padding: 20,
   },
   closeButton: {
     fontSize: 40,
-    marginTop: -30
-
+    marginTop: -30,
   },
   logoutButton: {
-    position: 'absolute',
     bottom: 20,
     backgroundColor: '#e74c3c',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
+    marginTop: 40
   },
   logoutButtonText: {
     color: '#fff',
     fontSize: 18,
   },
-  navigationContainer: {
-    marginTop: 50,
-    flexDirection: 'colums',
-    width: '80%',
+  scrollView: {
+    width: '100%',
+    marginTop: 40,
+    marginBottom: 40
   },
-  navigationButton: {
-    marginLeft: 10,
-  },
-  navigationButtonText: {
-    fontSize: 24,
-    marginLeft: 20
-  },
-  navMid: {
-    flexDirection: 'row',
+  divcontainer: {
     alignItems: 'center',
-    marginVertical: 18
-  }
+  },
 });
 
-
-
-export default Profile
+export default Profile;

@@ -23,9 +23,6 @@ const AdminSchema = new Schema({
         type: String,
         required: true,  
     },
-    logoImg: {
-        type: String 
-    },
     email: {
         type: String,
         required: true,

@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, SafeAreaView, StatusBar, ImageBackground, TouchableOpacity, ScrollView, Button, Platform, } from 'react-native';
+import { StyleSheet, Text, TextInput, View, SafeAreaView, StatusBar, ImageBackground, TouchableOpacity, ScrollView, Button, Platform, } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
-import image from '../assets/gym2.jpg';
+import axios from 'axios';
 
 
 const ScanQR = () => {
     const [hasPermission, setHasPermission] = useState(null);
     const [scanned, setScanned] = useState(false);
     const [text, setText] = useState('Not yet scanned')
+    const [memberId, setMemberId] = useState('')
 
     const askForCameraPermission = () => {
         (async () => {
@@ -25,7 +26,6 @@ const ScanQR = () => {
     const handleBarCodeScanned = ({ type, data }) => {
         setScanned(true);
         setText(data)
-        console.log('Type: ' + type + '\nData: ' + data)
     };
 
 
@@ -43,15 +43,34 @@ const ScanQR = () => {
             </View>)
     }
 
+    //attendence
+    const checkAttendence = () => {
+        const date = new Date();
+        console.log(date)
+        const form = {
+            memberId: memberId,
+            dateAndTime: date
+        }
+        try {
+            const res = axios.post("http://192.168.8.160:8086/timetable/check", form)
+            if (res.status === 200 || res.status === 404) {
+                Alert.alert("Attendence marked..!")
+            }
+        } catch (error) {
+            Alert.alert("Somthing went wrong..!")
+        }
+
+    }
+
     return (
         <SafeAreaView>
             <StatusBar backgroundColor="orange" />
-            <View style={{ backgroundColor: "white", height: "100vh", paddingVertical: 10 }}>
+            <View style={{ backgroundColor: "white", paddingVertical: 10 }}>
 
                 <Text style={style.HeaderText}>Validate Membership</Text>
 
-                <View style={style.secondDiv}>
-                    <ScrollView style={{ height: '100vh' }}>
+                <ScrollView style={{ marginBottom: 100 }}>
+                    <View style={style.secondDiv}>
                         <View style={style.container}>
                             <View style={style.barcodebox}>
                                 <BarCodeScanner
@@ -63,23 +82,22 @@ const ScanQR = () => {
                                     <Text style={style.btnText}>Scan me</Text>
                                 </TouchableOpacity>
                             )}
-                            <Text style={style.maintext}>{text}</Text>
-                            {/* details */}
-                            <Text style={{ fontWeight: '700', fontSize: 25, marginTop: 25 }}>Details</Text>
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10, borderBottomWidth: 1, paddingBottom: 5 }}>
-                                <Text style={{ flex: 1, fontWeight: 'bold', textAlign: 'center' }}>No</Text>
-                                <Text style={{ flex: 2, fontWeight: 'bold', textAlign: 'center' }}>Date</Text>
-                                <Text style={{ flex: 1, fontWeight: 'bold', textAlign: 'center' }}>Amount</Text>
+                            <View style={{ backgroundColor: '#e3e3e3', width: '80%', borderRadius: 30, marginVertical: 20 }}>
+                                <Text style={style.maintext}>{text}</Text>
                             </View>
-
-                            <View key={index} style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 10 }}>
-                                <Text style={{ flex: 1, textAlign: 'center' }}>{rowData.id}</Text>
-                                <Text style={{ flex: 2, textAlign: 'center' }}>{rowData.date}</Text>
-                                <Text style={{ flex: 1, textAlign: 'center' }}>{rowData.amount}</Text>
-                            </View>
+                            <TextInput
+                                style={style.input}
+                                placeholder="Member ID"
+                                value={memberId}
+                                onChangeText={(text) => setMemberId(text)
+                                }
+                            />
+                            <TouchableOpacity onPress={() => checkAttendence()} style={style.btn}>
+                                <Text style={style.btnText}>Mark Attendence</Text>
+                            </TouchableOpacity>
                         </View>
-                    </ScrollView>
-                </View>
+                    </View>
+                </ScrollView>
             </View>
         </SafeAreaView>
     )
@@ -92,6 +110,14 @@ const style = StyleSheet.create({
         marginLeft: 10,
         marginTop: 10,
         textAlign: "center",
+    },
+    input: {
+        borderWidth: 1,
+        borderColor: '#ddd',
+        padding: 12,
+        marginBottom: 20,
+        borderRadius: 5,
+        width: "70%"
     },
     secondDiv: {
         backgroundColor: '#ffffff',
@@ -119,8 +145,9 @@ const style = StyleSheet.create({
         marginTop: 10
     },
     maintext: {
-        fontSize: 16,
+        fontSize: 20,
         margin: 20,
+        letterSpacing: 1.8
     },
     barcodebox: {
         alignItems: 'center',

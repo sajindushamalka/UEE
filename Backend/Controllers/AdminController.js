@@ -2,16 +2,10 @@ import admin from "../Models/Admin.js"
 import jwt from "jsonwebtoken";
 import bcrypt from 'bcrypt'
 
-
 let refreshtokens = [];
 
 export const AdminSignup = async (req, res) => {
-
     try {
-        let file = 'N/A'
-        if (req.file) {
-            file = req.file.filename
-        }
         const existAdmin = await admin.findOne({ email: req.body.email });
         if (existAdmin) {
             res.status(400).json({
@@ -28,7 +22,6 @@ export const AdminSignup = async (req, res) => {
                 mobileNo: req.body.mobileNo,
                 gymName: req.body.gymName,
                 address: req.body.address,
-                logoImg: file,
                 email: req.body.email,
                 password: HashPass,
             })
@@ -45,7 +38,6 @@ export const AdminSignup = async (req, res) => {
                 })
             }
         }
-
     } catch (error) {
         res.status(500).json({
             message: "Something went wrong..!",
@@ -77,7 +69,6 @@ export const AdminLogin = async (req, res) => {
                         mobileNo: registeredAdmin.mobileNo,
                         gymName: registeredAdmin.gymName,
                         address: registeredAdmin.address,
-                        logoImg: registeredAdmin.logoImg,
                         email: registeredAdmin.email,
                     }
                 })

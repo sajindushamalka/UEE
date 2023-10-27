@@ -47,39 +47,19 @@ export default (state = initState, action) => {
                 loading: false
             }
             break;
-        case authConstants.PAYMENT_REQUEST:
+        case authConstants.ADMIN_REGISTER_REQUEST:
             state = {
                 ...state,
                 loading: true
             }
             break;
-        case authConstants.PAYMENT_SUCCESS:
+        case authConstants.ADMIN_REGISTER_SUCCESS:
             state = {
                 ...state,
                 loading: false,
-                user: action.payload
             }
             break;
-        case authConstants.PAYMENT_ERROR:
-            state = {
-                ...state,
-                loading: false
-            }
-            break;
-        case authConstants.TIME_REQUEST:
-            state = {
-                ...state,
-                loading: true
-            }
-            break;
-        case authConstants.TIME_SUCCESS:
-            state = {
-                ...state,
-                loading: false,
-                user: action.payload
-            }
-            break;
-        case authConstants.TIME_ERROR:
+        case authConstants.ADMIN_REGISTER_ERROR:
             state = {
                 ...state,
                 loading: false

@@ -2,7 +2,7 @@ import {
     StyleSheet,
     Text,
     View,
-    Image,
+    Alert,
     SafeAreaView,
     StatusBar,
     ImageBackground,
@@ -10,53 +10,110 @@ import {
     TextInput,
     TouchableOpacity
 } from "react-native";
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import image from '../assets/cash.jpeg'
+import { useSelector, useDispatch } from 'react-redux'
+import axios from 'axios'
+import { authConstants } from "../actions/constants";
 
 
 const RenewMembership = () => {
-    const [amount, setAmount] = useState('1800.00')
+    const dispatch = useDispatch()
+    const user = useSelector((state) => state.auth.user);
+    const [subTotal, setSubTotal] = useState(2500.00)
+    const [amount, setAmount] = useState('')
     const [cardholderName, setCardholderName] = useState('');
     const [cardNumber, setCardNumber] = useState('');
     const [expiry, setExpiry] = useState('');
     const [cvv, setCvv] = useState('');
 
-    const sendData = () => {
 
-    }
+    useEffect(() => {
+        const finalAmount = subTotal - user.rewards;
+        setAmount(finalAmount);
+    }, [subTotal, user.rewards]);
+
+
+    const sendData = async () => {
+        if (cardholderName === '') {
+            Alert.alert("Card holder name is required..!");
+        } else if (cardNumber === '') {
+            Alert.alert("Card Number is required..!");
+        } else if (expiry === '') {
+            Alert.alert("Expiry is required..!");
+        } else if (cvv === '') {
+            Alert.alert("CVV is required..!");
+        } else if (cardholderName !== '' && cardNumber !== '' && expiry !== '' && cvv !== '') {
+            const form = {
+                email: user.email,
+                memberId: user.memberId,
+                name: user.name,
+                amount: amount,
+                rewards: user.rewards,
+                gymName: user.gymName
+            };
+
+            try {
+                dispatch({ type: authConstants.PAYMENT_REQUEST })
+                const res = await axios.post("http://192.168.8.160:8086/payment/newPayment", form);
+                if (res.status === 201) {
+
+
+                    Alert.alert("Payment successful..!");
+                    setCardholderName('')
+                    setCardNumber('')
+                    setExpiry('')
+                    setCvv('')
+                    console.log(res)
+                    dispatch({
+                        type: authConstants.PAYMENT_SUCCESS,
+                        payload: res.data
+                    })
+                } else if (res.status === 400) {
+                    dispatch({ type: authConstants.PAYMENT_ERROR })
+                    Alert.alert("Something went wrong..!");
+                }
+            } catch (error) {
+                Alert.alert("Something went wrong..!");
+                dispatch({ type: authConstants.PAYMENT_ERROR })
+                console.error(error);
+            }
+        }
+
+    };
     return (
         <SafeAreaView>
-            <StatusBar backgroundColor="orange" />
-            <View style={{ backgroundColor: "black", height: "100%" }}>
-                <View>
-                    <ImageBackground source={image} style={style.Image}>
-                        <View
-                            style={{ backgroundColor: "black", marginTop: 150, opacity: 0.85 }}
-                        >
-                            <Text style={style.HeaderText}>Renew Anytime, Anywhere</Text>
-                        </View>
-                        <View
-                            style={{ backgroundColor: "black", opacity: 0.75, height: 130 }}
-                        >
-                            <Text
-                                style={{ color: "white", textAlign: "center", padding: 10 }}
+            <ScrollView >
+                <View style={{ backgroundColor: "black" }}>
+                    <View>
+                        <ImageBackground source={image} style={style.Image}>
+                            <View
+                                style={{ backgroundColor: "black", marginTop: 150, opacity: 0.85 }}
                             >
-                                Renew your membership effortlessly with our convenient online gateway, ensuring uninterrupted access to our premium fitness facilities and exclusive benefits.
-                            </Text>
-                        </View>
-                    </ImageBackground>
-                </View>
-                <View style={style.secondDiv}>
-                    <ScrollView style={{ marginBottom: 50 }}>
+                                <Text style={style.HeaderText}>Renew Anytime, Anywhere</Text>
+                            </View>
+                            <View
+                                style={{ backgroundColor: "black", opacity: 0.75, height: 130 }}
+                            >
+                                <Text
+                                    style={{ color: "white", textAlign: "center", padding: 10 }}
+                                >
+                                    Renew your membership effortlessly with our convenient online gateway, ensuring uninterrupted access to our premium fitness facilities and exclusive benefits.
+                                </Text>
+                            </View>
+                        </ImageBackground>
+                    </View>
+                    <View style={style.secondDiv}>
+
                         <View style={{ display: 'flex', alignItems: 'center', marginTop: 10 }}>
                             <View style={style.textContainer}>
-                                <Text style={style.textStyle}>Monthly Membership Fee: $50</Text>
+                                <Text style={style.textStyle}>Monthly Membership Fee: Rs:{subTotal}.00 </Text>
                             </View>
                             <View style={style.textContainer}>
-                                <Text style={style.textStyle}>Rewards Points: 1000</Text>
+                                <Text style={style.textStyle}>Rewards Points: {user.rewards}</Text>
                             </View>
                             <View style={style.textContainer}>
-                                <Text style={style.textStyle}>Total Payable: $30</Text>
+                                <Text style={style.textStyle}>Total Payable: Rs:{amount}.00</Text>
                             </View>
                         </View>
 
@@ -65,12 +122,6 @@ const RenewMembership = () => {
                         <View style={style.centeredView}>
                             <View style={style.modalView}>
                                 <Text style={{ fontWeight: 700, fontSize: 22 }}>Pay Here</Text>
-                                <TextInput
-                                    style={style.input}
-                                    placeholder="Amount"
-                                    value={amount}
-                                    editable={false}
-                                />
                                 <TextInput
                                     style={style.input}
                                     placeholder="Cardholder Name"
@@ -108,9 +159,10 @@ const RenewMembership = () => {
                             </View>
                         </View>
 
-                    </ScrollView>
+
+                    </View>
                 </View>
-            </View>
+            </ScrollView>
         </SafeAreaView>
     )
 }
@@ -141,8 +193,6 @@ const style = StyleSheet.create({
         backgroundColor: "black",
     },
     secondDiv: {
-        // backgroundColor: '#ffffff',
-        height: 350,
         width: '100%',
         paddingBottom: 30
     },

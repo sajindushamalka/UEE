@@ -12,6 +12,10 @@ const timetableSchema = new Schema({
         type: String,
         required: true
     },
+    gymName: {
+        type: String,
+        required: true
+    },
     timeTable: []
 })
 
