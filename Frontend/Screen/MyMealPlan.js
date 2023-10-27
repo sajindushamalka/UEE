@@ -183,8 +183,8 @@ const MyMealPlan = () => {
               Today is {currentDay} Your Plan
             </Text>
             <View style={{padding:30}}>
-            {food.map((f) => (
-              <View style={{padding:5, }}>
+            {food.map((f, index) => (
+              <View key={index} style={{padding:5, }}>
                  <Text style={{fontSize:17,backgroundColor:'white', padding:10 }}>Food Name - {f.foodName}</Text>
                 <Text style={{padding:10}}>Calorie Rate - {f.foodCalorie} cal</Text>
               </View>

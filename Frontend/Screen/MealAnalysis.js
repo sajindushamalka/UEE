@@ -18,19 +18,7 @@ import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { LineChart } from "react-native-chart-kit";
 
-// const data = {
-//   labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', "Sat", "Sun"],
-//   datasets: [
-//     {
-//       data: [20, 45, 28, 80, 99],
-//       color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`, // Color for the first line
-//     },
-//     {
-//       data: [40, 60, 30, 70, 85],
-//       color: (opacity = 1) => `rgba(255, 0, 0, ${opacity})`, // Color for the second line
-//     },
-//   ],
-// };
+
 
 // const chartConfig = {
 //   backgroundGradientFrom: '#fff',
@@ -43,13 +31,12 @@ const MealAnalysis = () => {
   const navigation = useNavigation();
   const route = useRoute();
 
-  const [yourFood,setYourFood] = useState([]);
+  const [yourFood,setYourFood] = useState([0]);
 
   const handleInputChange = (text) => {
     // Update your state with the new value
     setYourFood([...yourFood, text]);
   };
-
 
   const handeleBack = () => {
     navigation.navigate("NutritionPlanSelect");
@@ -57,14 +44,28 @@ const MealAnalysis = () => {
   const item = route.params.data;
   console.log(item);
   const foodCalories = item.map((food) => food.foodCalorie);
-  const labels = item.map((food, index) => `Food ${index + 1}`);
+  const label = item.map((food, index) => `Food ${index + 1}`);
+  console.log(foodCalories, label)
+  // const data = {
+  //   labels: label,
+  //   datasets: [
+  //     {
+  //       data: foodCalories,
+  //       color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`, // Color for the line
+  //     },
+  //     {
+  //       data: yourFood,
+  //       color: (opacity = 1) => `rgba(255, 0, 0, ${opacity})`, // Color for the second line
+  //     },
+  //   ],
+  // };
 
   const data = {
-    labels: labels,
+    labels: ['Spring 1', 'Spring 2', 'Spring 3', 'Spring 4'],
     datasets: [
       {
         data: foodCalories,
-        color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`, // Color for the line
+        color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`, // Color for the first line
       },
       {
         data: yourFood,
@@ -72,12 +73,17 @@ const MealAnalysis = () => {
       },
     ],
   };
+  
   const chartConfig = {
     backgroundGradientFrom: "#fff",
     backgroundGradientTo: "#fff",
     color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
     strokeWidth: 2,
   };
+
+  const display = () => {
+    
+  }
 
   return (
     <SafeAreaView>
@@ -133,12 +139,24 @@ const MealAnalysis = () => {
               />
             </View>
             <View>
+            <View>
       <TextInput
         placeholder="Enter your food"
         onChangeText={handleInputChange}
         style={{ borderWidth: 1, borderColor: 'gray', padding: 10 }}
       />
+      {/* Render the list of entered foods */}
+      <Button
+            title="Active"
+            color={"orange"}
+            onPress={() => display()}
+          />
     </View>
+    {yourFood.map((food, index) => (
+        <Text key={index}>{food}</Text>
+      ))}
+    </View>
+   
           </ScrollView>
         </View>
         <View
@@ -149,11 +167,7 @@ const MealAnalysis = () => {
             borderRadius: 20,
           }}
         >
-          <Button
-            title="Active"
-            color={"orange"}
-            onPress={() => console.log("H")}
-          />
+          
         </View>
       </View>
     </SafeAreaView>
