@@ -27,14 +27,6 @@ import Member from './Screen/IT21041716/componants/RenewMembership'
 import TimeTable from './Screen/IT21041716/componants/timeTable';
 import PaymentHistory from './Screen/IT21041716/componants/PaymentHistory';
 import MyAccount from './Screen/IT21041716/componants/MyAccount.jsx';
-import LandingPage from "./Screen/IT21041716/componants/LandingPage ";
-import Login from "./Screen/IT21041716/componants/userLogin";
-import Profile from "./Screen/IT21041716/componants/profile";
-import Rewards from "./Screen/IT21041716/componants/reward";
-import QR from "./Screen/IT21041716/componants/qr";
-import Member from "./Screen/IT21041716/componants/RenewMembership";
-import TimeTable from "./Screen/IT21041716/componants/timeTable";
-import PaymentHistory from "./Screen/IT21041716/componants/PaymentHistory";
 
 //Hiruna
 import Home from "./Screen/Home.js";
@@ -49,6 +41,11 @@ const Tab = createMaterialBottomTabNavigator();
 function MainStack() {
   return (
     <Stack.Navigator>
+      <Stack.Screen
+        name="home1"
+        component={Home}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen name='Rewards' component={Rewards} options={{ headerShown: false }} />
       <Stack.Screen name='QR' component={QR} options={{ headerShown: false }} />
       <Stack.Screen name='Member' component={Member} options={{ headerShown: false }} />
@@ -83,11 +80,6 @@ function MainStack() {
       <Stack.Screen
         name="MealAnalysis"
         component={MealAnalysis}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="home1"
-        component={Home}
         options={{ headerShown: false }}
       />
       <Stack.Screen
@@ -141,7 +133,7 @@ function MainScreen() {
       />
       <Tab.Screen
         name="Settings"
-        component={MainStack}
+        component={NutritionPlanSelect}
         options={{
           tabBarIcon: ({ focused, color, size }) => (
             <Ionicons name={focused ? 'ios-settings' : 'ios-settings-outline'} size={25} color={color} />
@@ -161,7 +153,7 @@ function MainScreen() {
       />
       <Tab.Screen
         name="photo"
-        component={MainStack}
+        component={Photo}
         options={{
           tabBarIcon: ({ color, size }) => (
             <FontAwesome name="photo" size={25} color={color} />
