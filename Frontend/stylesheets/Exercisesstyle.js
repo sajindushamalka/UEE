@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   button1: {
@@ -8,39 +8,39 @@ export const styles = StyleSheet.create({
     marginTop: 10,
     marginLeft: 5,
     marginBottom: 30,
-    backgroundColor: '#FF8200',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "#FF8200",
+    justifyContent: "center",
+    alignItems: "center",
   },
   backgroundImage: {
     flex: 1,
-    resizeMode: 'cover',
+    resizeMode: "cover",
   },
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.3)",
   },
   text: {
     fontSize: 28,
-    color: 'white',
+    color: "white",
     marginTop: 290,
   },
   text1: {
     fontSize: 28,
-    color: 'white',
+    color: "white",
     marginTop: 40,
     marginRight: 285,
     marginBottom: 10,
   },
   text2: {
     fontSize: 30,
-    color: 'white',
+    color: "white",
     marginTop: 10,
     marginRight: 280,
     marginBottom: 70,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   scrollContainer: {
     flex: 8,
@@ -51,20 +51,20 @@ export const styles = StyleSheet.create({
     width: 400,
     borderRadius: 30,
     marginLeft: 14,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "white",
+    justifyContent: "center",
+    alignItems: "center",
   },
   buttonWithMargin: {
     marginBottom: 8,
   },
   buttonText: {
-    color: 'black',
+    color: "black",
     fontSize: 17,
     paddingRight: 5,
     paddingLeft: 5,
     marginLeft: 0,
-    alignContent: 'flex-end',
-    textAlign: 'auto',
+    alignContent: "flex-end",
+    textAlign: "auto",
   },
 });

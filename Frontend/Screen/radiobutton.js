@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {RadioButton} from 'react-native-paper';
 
+
 export default function App() {
   const [checked, setChecked] = useState('first');
 
@@ -37,6 +38,7 @@ const styles = StyleSheet.create({
   radioButtonContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginLeft: 26,
   },
   text: {
     color: 'white',
